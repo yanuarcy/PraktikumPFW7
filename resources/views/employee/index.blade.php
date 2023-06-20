@@ -33,6 +33,7 @@
                             <td>{{ $employee->email }}</td>
                             <td>{{ $employee->age }}</td>
                             <td>{{ $employee->position->name }}</td>
+                            <td>@include('employee.action')</td>
                         </tr>
                     @endforeach
                 </tbody>
