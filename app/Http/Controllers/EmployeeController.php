@@ -63,12 +63,11 @@ class EmployeeController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-
         }
 
 
         //ELOQUENT
-        $employee = New Employee;
+        $employee = new Employee;
         $employee->firstname = $request->firstName;
         $employee->lastname = $request->lastName;
         $employee->email = $request->email;
@@ -96,7 +95,12 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
+        $pageTitle = 'Employee Detail';
 
+        // ELOQUENT
+        $employee = Employee::find($id);
+
+        return view('employee.show', compact('pageTitle', 'employee'));
     }
 
 
@@ -105,7 +109,6 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-
     }
 
     /**
@@ -113,7 +116,6 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
     }
 
     /**
@@ -121,7 +123,8 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
+        Employee::find($id)->delete();
 
-
+        return redirect()->route('employees.index');
     }
 }
