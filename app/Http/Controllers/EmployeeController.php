@@ -109,6 +109,13 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
+        $pageTitle = 'Edit Employee';
+
+        // ELOQUENT
+        $positions = Position::all();
+        $employee = Employee::find($id);
+
+        return view('employee.edit', compact('pageTitle', 'positions', 'employee'));
     }
 
     /**
@@ -116,6 +123,21 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'email' => 'Isi :attribute dengan format yang benar',
+            'numeric' => 'Isi :attribute dengan angka'
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'email' => 'required|email',
+            'age' => 'required|numeric',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
     }
 
     /**
